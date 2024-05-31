@@ -11,7 +11,13 @@ export function SidebarBrand() {
 
 	return (
 		<Flex alignItems='center' flexDirection='column'>
-			<HorizonLogo h='26px' w='175px' my='32px' color={logoColor} />
+			<img
+                  src="/img/dashboards/logo.svg"
+                  alt="logo"
+                  width={260}
+                  height={80}
+                  className="w-full dark:hidden"
+                />
 			<HSeparator mb='20px' />
 		</Flex>
 	);

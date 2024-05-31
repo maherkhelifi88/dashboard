@@ -310,7 +310,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
 
 export const pieChartOptions: ApexGeneric = {
   labels: ["Your files", "System", "Empty"],
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+  colors: ["#4318FF", "#c9f269", "#c9f269"],
   chart: {
     width: "50px",
   },
@@ -339,7 +339,7 @@ export const pieChartOptions: ApexGeneric = {
     },
   },
   fill: {
-    colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+    colors: ["#c9f269", "#083c2f", "#EFF4FB"],
   },
   tooltip: {
     enabled: true,

@@ -42,7 +42,7 @@ export default function Conversion(props: { [x: string]: any }) {
 				mx='auto'>
 				<Flex direction='column' py='5px'>
 					<Flex align='center'>
-						<Box h='8px' w='8px' bg='brand.500' borderRadius='50%' me='4px' />
+						<Box h='8px' w='8px' bg='#c9f269' borderRadius='50%' me='4px' />
 						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' mb='5px'>
 							Your files
 						</Text>
