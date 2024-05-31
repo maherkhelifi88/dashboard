@@ -35,35 +35,35 @@ export default function Conversion(props: { [x: string]: any }) {
 				<Flex w='100%' mb='20px'>
 					<Checkbox me='16px' colorScheme='brandScheme' />
 					<Text fontWeight='bold' color={textColor} fontSize='md' textAlign='start'>
-						Landing Page Design
+						Dashboard Design
 					</Text>
 					<Icon ms='auto' as={MdDragIndicator} color='secondaryGray.600' w='24px' h='24px' />
 				</Flex>
 				<Flex w='100%' mb='20px'>
 					<Checkbox me='16px' defaultChecked colorScheme='brandScheme' />
 					<Text fontWeight='bold' color={textColor} fontSize='md' textAlign='start'>
-						Dashboard Builder
+						Lmida Personalized Page
 					</Text>
 					<Icon ms='auto' as={MdDragIndicator} color='secondaryGray.600' w='24px' h='24px' />
 				</Flex>
 				<Flex w='100%' mb='20px'>
 					<Checkbox defaultChecked me='16px' colorScheme='brandScheme' />
 					<Text fontWeight='bold' color={textColor} fontSize='md' textAlign='start'>
-						Mobile App Design
+						Kanteen Social Media Strategy
 					</Text>
 					<Icon ms='auto' as={MdDragIndicator} color='secondaryGray.600' w='24px' h='24px' />
 				</Flex>
 				<Flex w='100%' mb='20px'>
 					<Checkbox me='16px' colorScheme='brandScheme' />
 					<Text fontWeight='bold' color={textColor} fontSize='md' textAlign='start'>
-						Illustrations
+						Instagram Reels
 					</Text>
 					<Icon ms='auto' as={MdDragIndicator} color='secondaryGray.600' w='24px' h='24px' />
 				</Flex>
 				<Flex w='100%' mb='20px'>
 					<Checkbox defaultChecked me='16px' colorScheme='brandScheme' />
 					<Text fontWeight='bold' color={textColor} fontSize='md' textAlign='start'>
-						Promotional LP
+						Dashboard Authentication
 					</Text>
 					<Icon ms='auto' as={MdDragIndicator} color='secondaryGray.600' w='24px' h='24px' />
 				</Flex>
