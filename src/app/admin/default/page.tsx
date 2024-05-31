@@ -78,7 +78,7 @@ export default function Default() {
 
       
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <ComplexTable tableData={tableDataComplex} />
+        <ComplexTable  />
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <Tasks />
           <PieCard />
