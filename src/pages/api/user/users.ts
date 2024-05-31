@@ -7,10 +7,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    console.log('Connecting to MongoDB...');
     const client = await clientPromise;
     const db = client.db();
-
+    console.log('Fetching users...');
     const users = await db.collection('users').find({}).toArray();
+    console.log('Users fetched successfully');
 
     res.status(200).json({ users });
   } catch (error) {
