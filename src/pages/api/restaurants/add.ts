@@ -1,13 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
-import clientPromise from '../../../lib/mongodb';
-
+import dynamoDb from '../../../lib/dynamodb';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
-
-  
 
   const { name, about, customerLove, opportunities, videoParagraph, email } = req.body;
 
@@ -16,23 +12,33 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const client = await clientPromise;
-    const db = client.db();
-    const currentDate = new Date();
-    await db.collection('restaurants').insertOne({
-      email,
-      name,
-      about,
-      customerLove,
-      opportunities,
-      videoParagraph,
-      date: currentDate,
-      status: 'pending',
-    });
-    await db.collection('users').updateOne(
-      { email },
-      { $set: { restaurant: name } }
-    );
+    const params = {
+      TableName: 'RestaurantsTable', // Replace with your DynamoDB table name
+      Item: {
+        email,
+        name,
+        about,
+        customerLove,
+        opportunities,
+        videoParagraph,
+        date: new Date().toISOString(),
+        status: 'pending',
+      },
+    };
+
+    await dynamoDb.put(params).promise();
+
+    const userParams = {
+      TableName: 'restaurants',
+      Key: { email },
+      UpdateExpression: 'set restaurant = :name',
+      ExpressionAttributeValues: {
+        ':name': name,
+      },
+    };
+
+    await dynamoDb.update(userParams).promise();
+
     res.status(201).json({ message: 'Restaurant information added successfully' });
   } catch (error) {
     console.error('Add restaurant error:', error);

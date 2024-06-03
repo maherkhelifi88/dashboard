@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import clientPromise from '../../../lib/mongodb';
+import dynamoDb from '../../../lib/dynamodb';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {
@@ -7,18 +7,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    console.log('Connecting to MongoDB...');
-    const client = await clientPromise;
-    const db = client.db();
-    console.log('Fetching users...');
-    const users = await db.collection('users').find({}).toArray();
-    console.log('Users fetched successfully');
-
-    res.status(200).json({ users });
+    const params = {
+      TableName: 'Users', 
+    };
+    const data = await dynamoDb.scan(params).promise();
+    res.status(200).json({ users: data.Items });
   } catch (error) {
-    console.error('Fetch users error:', error);
+    console.error('Error fetching users:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 export default handler;
