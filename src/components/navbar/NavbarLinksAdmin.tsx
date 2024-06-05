@@ -16,6 +16,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 // Custom Components
 import { ItemContent } from 'components/menu/ItemContent';
 import { SearchBar } from 'components/navbar/searchBar/SearchBar';
@@ -25,6 +26,8 @@ import navImage from '/public/img/layout/Navbar.png';
 import { FaEthereum } from 'react-icons/fa';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
+import { handleSignOut } from "../../lib/cognitoActions";
+
 import routes from 'routes';
 export default function HeaderLinks(props: {
   secondary: boolean;
@@ -231,14 +234,7 @@ export default function HeaderLinks(props: {
             >
               <Text fontSize="sm">Profile Settings</Text>
             </MenuItem>
-            <MenuItem
-              _hover={{ bg: 'none' }}
-              _focus={{ bg: 'none' }}
-              borderRadius="8px"
-              px="14px"
-            >
-              <Text fontSize="sm">Newsletter Settings</Text>
-            </MenuItem>
+           
             <MenuItem
               _hover={{ bg: 'none' }}
               _focus={{ bg: 'none' }}
@@ -246,11 +242,23 @@ export default function HeaderLinks(props: {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Log out</Text>
+              <LogoutForm/>
             </MenuItem>
           </Flex>
         </MenuList>
       </Menu>
     </Flex>
+  );
+}
+
+
+function LogoutForm() {
+  return (
+    <form action={handleSignOut}>
+      <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+        <WavingHandIcon className="w-6" />
+        <div className="hidden md:block">Sign Out</div>
+      </button>
+    </form>
   );
 }

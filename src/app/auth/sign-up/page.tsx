@@ -5,8 +5,6 @@ import React, { useState, FormEvent } from 'react';
 import {
   Box,
   Button,
-  Checkbox,
-  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -16,6 +14,7 @@ import {
   InputRightElement,
   Text,
   useColorModeValue,
+  Flex,
 } from '@chakra-ui/react';
 // Custom components
 import { HSeparator } from 'components/separator/Separator';
@@ -25,17 +24,18 @@ import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
-import { handleSignIn } from "../../../lib/cognitoActions";
-
+import { handleSignUp } from "../../../lib/cognitoActions";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { redirect } from "next/navigation";
-export default function SignIn() {
-  const [show, setShow] = useState(false);
-  const [pending, setPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [redirectToConfirm, setRedirectToConfirm] = useState<boolean>(false); 
+import { useRouter } from 'next/router'; // Import useRouter
+export default function Signup() {
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
+  const [redirectToConfirm, setRedirectToConfirm] = useState<boolean>(false); // Add state for redirection
+ 
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
-  const textColorSecondary = useColorModeValue('gray.400', 'gray.400');
+  const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
@@ -49,28 +49,25 @@ export default function SignIn() {
     { bg: 'secondaryGray.300' },
     { bg: 'whiteAlpha.200' },
   );
-
+  const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
 
-    setPending(true);
-    const result = await handleSignIn(undefined, formData);
-    setPending(false);
-
-    if (result) {
-      setErrorMessage(result);
+    const result = await handleSignUp(undefined, formData);
+    if (result.errorMessage) {
+      setErrorMessage(result.errorMessage);
     } else {
       // Redirect after successful sign-up
       setRedirectToConfirm(true); // Trigger the redirection state
     }
   };
-  if (redirectToConfirm) {
-    redirect('/admin/default'); // Use router.push for redirection
-   }
 
+  if (redirectToConfirm) {
+   redirect('/auth/confirm-signup'); // Use router.push for redirection
+  }
   return (
     <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
       <Flex
@@ -88,7 +85,7 @@ export default function SignIn() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            Sign Up
           </Heading>
           <Text
             mb="36px"
@@ -97,7 +94,7 @@ export default function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to sign in!
+            Enter your email and password to sign up!
           </Text>
         </Box>
         <Flex
@@ -126,7 +123,7 @@ export default function SignIn() {
             _focus={googleActive}
           >
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
-            Sign in with Google
+            Sign up with Google
           </Button>
           <Flex align="center" mb="25px">
             <HSeparator />
@@ -135,8 +132,34 @@ export default function SignIn() {
             </Text>
             <HSeparator />
           </Flex>
+
           <form onSubmit={handleSubmit}>
             <FormControl>
+              <FormLabel
+                display="flex"
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+              >
+                Name<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                isRequired={true}
+                variant="auth"
+                fontSize="sm"
+                id="name"
+                name="name"
+                ms={{ base: '0px', md: '0px' }}
+                type="text"
+                minLength={4}
+                placeholder="Enter your name"
+                mb="24px"
+                fontWeight="500"
+                size="lg"
+              />
+
               <FormLabel
                 display="flex"
                 ms="4px"
@@ -151,7 +174,9 @@ export default function SignIn() {
                 isRequired={true}
                 variant="auth"
                 fontSize="sm"
+                id="email"
                 name="email"
+                ms={{ base: '0px', md: '0px' }}
                 type="email"
                 placeholder="mail@simmmple.com"
                 mb="24px"
@@ -170,13 +195,15 @@ export default function SignIn() {
               <InputGroup size="md">
                 <Input
                   isRequired={true}
-                  name="password"
                   fontSize="sm"
+                  id="password"
+                  name="password"
                   placeholder="Min. 8 characters"
                   mb="24px"
                   size="lg"
                   type={show ? 'text' : 'password'}
                   variant="auth"
+                  minLength={6}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -187,42 +214,16 @@ export default function SignIn() {
                   />
                 </InputRightElement>
               </InputGroup>
-              <Flex justifyContent="space-between" align="center" mb="24px">
-                <FormControl display="flex" alignItems="center">
-                  <Checkbox
-                    id="remember-login"
-                    colorScheme="brandScheme"
-                    me="10px"
-                  />
-                  <FormLabel
-                    htmlFor="remember-login"
-                    mb="0"
-                    fontWeight="normal"
-                    color={textColor}
-                    fontSize="sm"
-                  >
-                    Keep me logged in
-                  </FormLabel>
-                </FormControl>
-                <Link href="/auth/forgot-password">
-                  <Text
-                    color={textColorBrand}
-                    fontSize="sm"
-                    w="124px"
-                    fontWeight="500"
-                  >
-                    Forgot password?
-                  </Text>
-                </Link>
-              </Flex>
-              <LoginButton pending={pending} />
+
+              <SignUpButton pending={false} /> {/* Adjusted to pass pending prop */}
+
               {errorMessage && (
-                <Text color="red.500" mt="4">
-                  {errorMessage}
-                </Text>
+                <p className="text-sm text-red-500">{errorMessage}</p>
               )}
+
             </FormControl>
           </form>
+
           <Flex
             flexDirection="column"
             justifyContent="center"
@@ -230,16 +231,16 @@ export default function SignIn() {
             maxW="100%"
             mt="0px"
           >
-            <Link href="/auth/sign-up">
+            <Link href="/auth/sign-in">
               <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-                Not registered yet?
+                You have an account?
                 <Text
                   color={textColorBrand}
                   as="span"
                   ms="5px"
                   fontWeight="500"
                 >
-                  Create an Account
+                  SignIn
                 </Text>
               </Text>
             </Link>
@@ -250,24 +251,20 @@ export default function SignIn() {
   );
 }
 
-type LoginButtonProps = {
+type SignUpButtonProps = {
   pending: boolean;
 };
 
-function LoginButton({ pending }: LoginButtonProps) {
+function SignUpButton({ pending }: SignUpButtonProps) {
   return (
     <Button
-      fontSize="sm"
-      variant="brand"
-      fontWeight="500"
-      w="100%"
-      h="50"
-      mb="24px"
-      aria-disabled={pending}
-      isLoading={pending}
-      type="submit"
-    >
-      Log in
+    fontSize="sm"
+    variant="brand"
+    fontWeight="500"
+    w="100%"
+    h="50"
+    mb="24px" aria-disabled={pending} type="submit">
+      Create account <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
     </Button>
   );
 }
