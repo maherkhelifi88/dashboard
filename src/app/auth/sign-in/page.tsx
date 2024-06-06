@@ -72,7 +72,7 @@ export default function SignIn() {
    }
 
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
+    <DefaultAuthLayout illustrationBackground={'/img/auth/Design.png'}>
       <Flex
         maxW={{ base: '100%', md: 'max-content' }}
         w="100%"

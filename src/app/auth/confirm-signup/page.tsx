@@ -60,7 +60,7 @@ export default function ConfirmSignUpForm() {
     redirect('/admin/default'); // Use router.push for redirection
    }
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
+    <DefaultAuthLayout illustrationBackground={'/img/auth/Design.png'}>
       <Flex
         maxW={{ base: '100%', md: 'max-content' }}
         w="100%"
