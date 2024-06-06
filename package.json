@@ -24,7 +24,7 @@
     "@types/jest": "^25.2.3",
     "@types/react-dom": "^18.0.6",
     "apexcharts": "^3.35.2",
-    "aws-amplify": "^6.3.4",
+    "aws-amplify": "^6.3.5",
     "aws-sdk": "^2.1632.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",

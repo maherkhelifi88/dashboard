@@ -12,7 +12,7 @@ import {
   updatePassword,
 } from "aws-amplify/auth";
 import { getErrorMessage } from "../utils/get-error-message";
-
+import  Auth  from 'aws-amplify';
 
 interface SignUpResult {
   isSignUpComplete?: boolean;
@@ -131,17 +131,17 @@ export async function handleSignIn(
  
 }
 
-export async function handleSignOut() {
+
+export async function handleSignOut(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
   try {
     await signOut();
-    console.log("SignOut Success");
+    localStorage.removeItem('user'); // Remove user from local storage
+    window.location.href = '/auth/sign-in'; // Redirect to sign-in page
   } catch (error) {
-    console.error("SignOut Error:", error);
-    console.log(getErrorMessage(error));
+    console.error('Error signing out: ', error);
   }
-  redirect("/auth/sign-in");
 }
-
 export async function handleUpdateUserAttribute(
   prevState: string,
   formData: FormData
