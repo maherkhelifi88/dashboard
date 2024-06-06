@@ -124,7 +124,7 @@ export default function ConfirmSignUpForm() {
                 name="email"
                 ms={{ base: '0px', md: '0px' }}
                 type="email"
-                placeholder="mail@simmmple.com"
+                placeholder="mail@gmail.com"
                 mb="24px"
                 fontWeight="500"
                 size="lg"

@@ -153,7 +153,7 @@ export default function SignIn() {
                 fontSize="sm"
                 name="email"
                 type="email"
-                placeholder="mail@simmmple.com"
+                placeholder="mail@gmail.com"
                 mb="24px"
                 fontWeight="500"
                 size="lg"
