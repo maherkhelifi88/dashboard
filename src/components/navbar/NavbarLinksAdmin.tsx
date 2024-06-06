@@ -29,6 +29,7 @@ import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import { handleSignOut } from "../../lib/cognitoActions";
 
 import routes from 'routes';
+import useAuthUser from 'app/hooks/use-auth-user';
 export default function HeaderLinks(props: {
   secondary: boolean;
   onOpen: boolean | any;
@@ -50,7 +51,7 @@ export default function HeaderLinks(props: {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
   );
   const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
-
+  const use = useAuthUser();
   return (
     <Flex
       w={{ sm: '100%', md: 'auto' }}

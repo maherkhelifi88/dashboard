@@ -6,7 +6,7 @@ import 'styles/MiniCalendar.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { CacheProvider } from '@chakra-ui/next-js';
 import theme from '../theme/theme';
-
+import  {UserProvider}  from '../contexts/UserContext';
 export default function AppWrappers({ children }: { children: ReactNode }) {
   return (
     <CacheProvider>

@@ -17,9 +17,11 @@ import  Auth  from 'aws-amplify';
 interface SignUpResult {
   isSignUpComplete?: boolean;
   userId?: string;
-  nextStep?: any; // Replace with the correct type if known
+  nextStep?: any; 
   errorMessage?: string;
 }
+
+
 export async function handleSignUp(
   prevState: string | undefined,
   formData: FormData
@@ -42,6 +44,7 @@ export async function handleSignUp(
         autoSignIn: true,
       },
     });
+
 
     console.log("SignUp Success:", { isSignUpComplete, userId, nextStep });
 
@@ -111,11 +114,12 @@ export async function handleSignIn(
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
     console.log("SignIn Payload:", { email, password });
-
+   
     const { isSignedIn, nextStep } = await signIn({
       username: email,
       password,
     });
+    
 
     console.log("SignIn Success:", { isSignedIn, nextStep });
 
@@ -233,7 +237,6 @@ export async function handleConfirmUserAttribute(
 
   try {
     console.log("ConfirmUserAttribute Payload:", { code });
-
     await confirmUserAttribute({
       userAttributeKey: "email",
       confirmationCode: String(code),

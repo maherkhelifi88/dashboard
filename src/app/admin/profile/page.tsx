@@ -7,7 +7,7 @@ import AdminLayout from 'layouts/admin';
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
 import Notifications from 'views/admin/profile/components/Notifications';
-import Projects from 'views/admin/profile/components/Projects';
+import UpdateEmailForm from 'views/admin/profile/components/update-email-form';
 import Storage from 'views/admin/profile/components/Storage';
 import Upload from 'views/admin/profile/components/Upload';
 
@@ -19,7 +19,7 @@ export default function ProfileOverview() {
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       {/* Main Fields */}
-      
+
       <Grid
         mb="20px"
         templateColumns={{
@@ -49,15 +49,24 @@ export default function ProfileOverview() {
           minH="365px"
           pe="20px"
         />
-        <Notifications
-          used={25.6}
-          total={50}
-          gridArea={{
-            base: '3 / 1 / 4 / 2',
-            lg: '2 / 1 / 3 / 3',
-            '2xl': '1 / 3 / 2 / 4',
-          }}
-        />
+        <UpdateEmailForm/>
+      </Grid>
+      <Grid
+        mb="20px"
+        templateColumns={{
+          base: '1fr',
+          lg: 'repeat(2, 1fr)',
+          '2xl': '1.34fr 1.62fr 1fr',
+        }}
+        templateRows={{
+          base: '1fr',
+          lg: 'repeat(2, 1fr)',
+          '2xl': '1fr',
+        }}
+        gap={{ base: '20px', xl: '20px' }}
+      >
+
+
       </Grid>
     </Box>
   );

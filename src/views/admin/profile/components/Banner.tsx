@@ -1,7 +1,9 @@
 // Chakra imports
-import { Box, Flex, Avatar, Text, useColorModeValue } from '@chakra-ui/react';
+import { Input, Box, Flex, Avatar, Text, Button, useColorModeValue } from '@chakra-ui/react';
 import Card from 'components/card/Card';
-
+import { useFormState, useFormStatus } from "react-dom";
+import { handleUpdateUserAttribute } from "../../../../lib/cognitoActions";
+import useAuthUser from "../../../../app/hooks/use-auth-user";
 export default function Banner(props: {
   banner: string;
   avatar: string | any;
@@ -21,56 +23,90 @@ export default function Banner(props: {
     'white !important',
     '#111C44 !important',
   );
+
+  const user = useAuthUser();
+  const [status, dispatch] = useFormState(handleUpdateUserAttribute, "");
+
+
+
   return (
-    <Card mb={{ base: '0px', lg: '20px' }} alignItems="center" {...rest}>
-      <Box
-        bg={`url(${banner})`}
-        bgSize="cover"
-        borderRadius="16px"
-        h="131px"
-        w="100%"
-      />
-      <Avatar
-        mx="auto"
-        src={avatar.src}
-        h="87px"
-        w="87px"
-        mt="-43px"
-        border="4px solid"
-        borderColor={borderColor}
-      />
-      <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mt="10px">
-        {name}
-      </Text>
-      <Text color={textColorSecondary} fontSize="sm">
-        {job}
-      </Text>
-      <Flex w="max-content" mx="auto" mt="26px">
-        <Flex mx="auto" me="60px" alignItems="center" flexDirection="column">
-          <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
-            {posts}
-          </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400">
-            Posts
-          </Text>
-        </Flex>
-        <Flex mx="auto" me="60px" alignItems="center" flexDirection="column">
-          <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
-            {followers}
-          </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400">
-            Followers
-          </Text>
-        </Flex>
-        <Flex mx="auto" alignItems="center" flexDirection="column">
-          <Text color={textColorPrimary} fontSize="2xl" fontWeight="700">
-            {following}
-          </Text>
-          <Text color={textColorSecondary} fontSize="sm" fontWeight="400">
-            Following
-          </Text>
-        </Flex>
-      </Flex>
-    </Card>
+   
+      <Card mb={{ base: '0px', lg: '20px' }} alignItems="center" {...rest}>
+         <form action={dispatch}  >
+         <Card mb={{ base: '0px', lg: '20px' }} alignItems="center" {...rest}>
+        <Box
+          bg={`url(${banner})`}
+          bgSize="cover"
+          borderRadius="16px"
+          h="131px"
+          w="100%"
+        />
+        <Avatar
+          mx="auto"
+          src={avatar.src}
+          h="87px"
+          w="87px"
+          mt="-43px"
+          border="4px solid"
+          borderColor={borderColor}
+        />
+        <Text color={textColorPrimary} fontWeight="bold" fontSize="xl" mt="10px">
+        {user?.name}
+        </Text>
+        <Input
+          isRequired={true}
+          variant="auth"
+          fontSize="sm"
+          name="name"
+          type="name"
+          required
+          placeholder="Enter your new name"
+          defaultValue={user?.name}
+          mb="24px"
+          fontWeight="500"
+          size="lg"
+        />
+        <div>
+              <input
+                id="current_name"
+                type="hidden"
+                name="current_name"
+                defaultValue={user?.name}
+              />
+            </div>
+            <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {status === "error" && (
+            <>
+              
+              <p className="text-sm text-red-500">
+                There was an error updating name.
+              </p>
+            </>
+          )}
+          {status === "success" && (
+            <p className="text-sm text-green-500">
+              Name has been updated successfully.
+            </p>
+          )}
+        </div>
+
+        <div className="mt-6 flex justify-end gap-4">
+        <UpdateButton />
+      </div>
+      </Card>
+      </form>
+      </Card>
+    
   );
+}
+
+
+function UpdateButton() {
+  const { pending } = useFormStatus();
+
+  return <Button aria-disabled={pending}>Update Name</Button>;
 }
